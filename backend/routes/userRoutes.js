@@ -3,11 +3,11 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 
 // Public routes for registration and login
-router.post('/users/register', userController.registerUser);
-router.post('/users/login', userController.loginUser);
+router.post('/register', userController.registerUser); // Changed from /users/register to /register
+router.post('/login', userController.loginUser); // Changed from /users/login to /login
 
 // Protected route example (e.g., user profile)
-router.get('/users/profile', userController.authenticateToken, (req, res) => {
+router.get('/profile', userController.authenticateToken, (req, res) => {
     res.json({ message: "Access granted to profile", user: req.user });
 });
 

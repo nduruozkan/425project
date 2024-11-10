@@ -1,8 +1,7 @@
-// connectionDb.js
 const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 
-// Connect to the SQLite database (creates a new file if it doesn't exist)
-const db = new sqlite3.Database('./foodrecipe.db', (err) => {
+const db = new sqlite3.Database(path.resolve(__dirname, process.env.DB_PATH), (err) => {
     if (err) {
         console.error("Error opening database:", err.message);
     } else {
@@ -10,4 +9,4 @@ const db = new sqlite3.Database('./foodrecipe.db', (err) => {
     }
 });
 
-module.exports = db;
+module.exports = db; // Export the db connection

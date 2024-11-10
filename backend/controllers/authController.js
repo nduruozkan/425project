@@ -38,4 +38,25 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+// Middleware to authenticate JWT token
+const authenticateJWT = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) return res.status(401).json({ message: "Access denied. No token provided." });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // Store user info in req for access in routes
+    next();
+  } catch (error) {
+    res.status(403).json({ message: "Invalid token." });
+  }
+};
+
+// Protected resource example
+const protectedResource = (req, res) => {
+  res.json({ message: "Access granted to protected resource." });
+};
+
+module.exports = { register, login, authenticateJWT, protectedResource };

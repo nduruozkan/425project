@@ -1,4 +1,3 @@
-// dbSchema.js
 const db = require('./connectionDb.js'); // Import the database connection
 
 // Function to initialize the database schema
@@ -24,7 +23,7 @@ function initializeSchema() {
         CREATE TABLE IF NOT EXISTS recipes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
-            ingredients TEXT NOT NULL,         -- stored as JSON string
+            ingredients TEXT NOT NULL,
             instructions TEXT NOT NULL,
             time TEXT,
             coverImage TEXT,

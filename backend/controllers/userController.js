@@ -19,6 +19,7 @@ function loginUser(req, res) {
 
         // Generate JWT
         const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
+
         res.json({ message: "Login successful", token });
     });
 }
@@ -36,6 +37,7 @@ function authenticateToken(req, res, next) {
         next();
     });
 }
+
 
 module.exports = {
     registerUser,

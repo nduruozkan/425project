@@ -4,15 +4,18 @@ const recipeController = require('../controllers/recipeController');
 const userController = require('../controllers/userController'); // To access authentication
 
 // Create recipe (protected)
-router.post('/recipes', userController.authenticateToken, recipeController.createRecipe);
+router.post('/', userController.authenticateToken, recipeController.createRecipe); // Changed from '/recipes' to '/'
+
+// Get all recipes (public)
+router.get('/', recipeController.getAllRecipes); // Add this line
 
 // Get recipe by ID (public)
-router.get('/recipes/:id', recipeController.getRecipeById);
+router.get('/:id', recipeController.getRecipeById); // Changed from '/recipes/:id' to '/:id'
 
 // Update recipe (protected)
-router.put('/recipes/:id', userController.authenticateToken, recipeController.updateRecipe);
+router.put('/:id', userController.authenticateToken, recipeController.updateRecipe); // Changed from '/recipes/:id' to '/:id'
 
 // Delete recipe (protected)
-router.delete('/recipes/:id', userController.authenticateToken, recipeController.deleteRecipe);
+router.delete('/:id', userController.authenticateToken, recipeController.deleteRecipe); // Changed from '/recipes/:id' to '/:id'
 
 module.exports = router;
