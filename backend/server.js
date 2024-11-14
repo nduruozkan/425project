@@ -28,6 +28,10 @@ initializeSchema();
 app.use('/api/users', userRoutes);
 app.use('/api/recipes', recipeRoutes);
 
+app.post('/register', authController.register);
+// Register the /signUp route for user registration
+app.post('/login', authController.login); 
+
 // Protected route example (to be used with JWT authentication)
 app.get("/api/protected", authController.authenticateJWT, authController.protectedResource);
 
