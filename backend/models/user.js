@@ -43,9 +43,16 @@ function getUserById(id, callback) {
         }
     );
 }
+function deleteUserById(id, callback) {
+    const query = 'DELETE FROM users WHERE id = ?';
+    db.run(query, [id], (err) => {
+        callback(err);
+    });
+}
 
 module.exports = {
     createUser,
     authenticateUser,
-    getUserById
+    getUserById,
+    deleteUserById
 };

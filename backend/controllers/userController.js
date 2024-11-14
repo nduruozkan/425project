@@ -37,10 +37,24 @@ function authenticateToken(req, res, next) {
         next();
     });
 }
+function deleteUser(req, res) {
+    const userId = req.params.id;
+    console.log('Deleting user with ID:', userId);
+
+    userModel.deleteUserById(userId, (err) => {
+        if (err) {
+            console.error('Error deleting user:', err);
+            return res.status(500).json({ error: "Failed to delete user" });
+        }
+        console.log('User deleted successfully');
+        res.json({ message: "User deleted successfully" });
+    });
+}
 
 
 module.exports = {
     registerUser,
     loginUser,
-    authenticateToken
+    authenticateToken,
+    deleteUser
 };

@@ -10,5 +10,5 @@ router.post('/login', userController.loginUser); // Changed from /users/login to
 router.get('/profile', userController.authenticateToken, (req, res) => {
     res.json({ message: "Access granted to profile", user: req.user });
 });
-
+router.delete('/:id', userController.deleteUser);
 module.exports = router;
