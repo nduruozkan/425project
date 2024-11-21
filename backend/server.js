@@ -28,6 +28,7 @@ initializeSchema();
 app.use('/api/users', userRoutes);
 app.use('/api/recipes', recipeRoutes);
 
+
 app.post('/register', authController.register);
 // Register the /signUp route for user registration
 app.post('/login', authController.login); 

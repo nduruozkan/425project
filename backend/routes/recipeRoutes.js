@@ -18,4 +18,6 @@ router.put('/:id', userController.authenticateToken, recipeController.updateReci
 // Delete recipe (protected)
 router.delete('/:id', userController.authenticateToken, recipeController.deleteRecipe); // Changed from '/recipes/:id' to '/:id'
 
+
+
 module.exports = router;

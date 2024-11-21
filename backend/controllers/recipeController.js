@@ -29,7 +29,7 @@ function createRecipe(req, res) {
 function getRecipeById(req, res) {
     recipeModel.getRecipeById(req.params.id, (err, recipe) => {
         if (err) return res.status(500).json({ error: err.message });
-        if (!recipe) return res.status(404).json({ error: "Recipe not found" });
+        if (!recipe) return res.status(404).json({ error: "Recipe not found 0" });
         res.json(recipe);
     });
 }
@@ -41,7 +41,7 @@ function updateRecipe(req, res) {
 
     recipeModel.updateRecipe(recipeId, updatedData, (err, changes) => {
         if (err) return res.status(500).json({ error: err.message });
-        if (changes === 0) return res.status(404).json({ error: "Recipe not found" });
+        if (changes === 0) return res.status(404).json({ error: "Recipe not found 1" });
         res.json({ message: "Recipe updated successfully" });
     });
 }
@@ -50,7 +50,7 @@ function updateRecipe(req, res) {
 function deleteRecipe(req, res) {
     recipeModel.deleteRecipe(req.params.id, (err, changes) => {
         if (err) return res.status(500).json({ error: err.message });
-        if (changes === 0) return res.status(404).json({ error: "Recipe not found" });
+        if (changes === 0) return res.status(404).json({ error: "Recipe not found 2" });
         res.json({ message: "Recipe deleted successfully" });
     });
 }

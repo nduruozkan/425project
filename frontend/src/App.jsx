@@ -10,6 +10,7 @@ import EditRecipe from './pages/EditRecipe'
 import RecipeDetails from './pages/RecipeDetails'
 
 
+
 const getAllRecipes = async () => {
   try {
       const response = await axios.get("http://localhost:3001/api/recipes");
