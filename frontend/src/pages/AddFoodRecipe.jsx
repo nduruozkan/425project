@@ -16,7 +16,7 @@ export default function AddFoodRecipe() {
 
   // Handle form input changes
   const onHandleChange = (e) => {
-    let val = e.target.name === "ingredients" ? e.target.value.split(",") : e.target.value;
+    let val = e.target.name === "ingredients" ? e.target.value.split(",").map(item => item.trim()) : e.target.value; // Trim whitespace
     setRecipeData(prev => ({ ...prev, [e.target.name]: val }));
   };
 
@@ -24,16 +24,14 @@ export default function AddFoodRecipe() {
   const onHandleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('title', recipeData.title);
-    formData.append('time', recipeData.time);
-    formData.append('ingredients', recipeData.ingredients.join(", "));  // Join ingredients as a string
-    formData.append('instructions', recipeData.instructions);
-
-    // Append the image URL if provided (optional)
-    if (recipeData.image_url) {
-      formData.append('cover_image', recipeData.image_url); // Use 'cover_image' for the image URL
-    }
+    // Prepare the data to be sent as JSON
+    const jsonData = {
+      title: recipeData.title,
+      time: recipeData.time,
+      ingredients: recipeData.ingredients, // Sending as an array
+      instructions: recipeData.instructions,
+      coverImage: recipeData.image_url || null // Optional cover image
+    };
 
     try {
       // Retrieve token from localStorage
@@ -44,9 +42,9 @@ export default function AddFoodRecipe() {
       }
 
       // Send POST request to create the recipe
-      const response = await axios.post("http://localhost:3001/api/recipes", formData, {
+      const response = await axios.post("http://localhost:3001/api/recipes", jsonData, {
         headers: {
-          'Content-Type': 'multipart/form-data',  // Send form data
+          'Content-Type': 'application/json', // Sending JSON data
           'Authorization': 'Bearer ' + token  // Ensure the token is included in the Authorization header
         }
       });

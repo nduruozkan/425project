@@ -9,46 +9,49 @@ import axios from 'axios';
 
 export default function RecipeItems() {
   const recipes = useLoaderData(); // Assuming this is passed from a route loader
-  const [allRecipes, setAllRecipes] = useState([]);
-  const [isFavRecipe, setIsFavRecipe] = useState(false);
+  const [allRecipes, setAllRecipes] = useState([]); // Initialize the state for all recipes
+  const [favItems, setFavItems] = useState(JSON.parse(localStorage.getItem("fav")) ?? []); // Initialize the state for favorites
   const navigate = useNavigate();
   const path = window.location.pathname === "/myRecipe";
-  let favItems = JSON.parse(localStorage.getItem("fav")) ?? [];
 
+  // Update the recipes when `recipes` changes
   useEffect(() => {
-    if (recipes !== allRecipes) {
-      setAllRecipes(recipes);  // Only update if recipes have changed
-    }
-  }, [recipes, allRecipes]);  // Added allRecipes to prevent infinite updates
+    setAllRecipes(recipes);
+  }, [recipes]);  // Now it will update whenever `recipes` changes
 
   const onDelete = async (id) => {
     try {
+      // Delete the recipe from the database
       await axios.delete(`http://localhost:3001/recipes/${id}`);
+      
+      // Update the state to remove the deleted recipe
       setAllRecipes(prevRecipes => prevRecipes.filter(recipe => recipe._id !== id));
 
       // Remove deleted item from favorites if it's there
       const updatedFavorites = favItems.filter(recipe => recipe._id !== id);
       localStorage.setItem("fav", JSON.stringify(updatedFavorites));
+      setFavItems(updatedFavorites); // Update the state to reflect the change in favorites
     } catch (error) {
       console.error("Error deleting recipe:", error);
+      alert("Failed to delete recipe. Please try again.");
     }
   };
 
   const favRecipe = (item) => {
-    const isFavorite = favItems.some(recipe => recipe._id === item._id);
-    const updatedFavorites = isFavorite 
-      ? favItems.filter(recipe => recipe._id !== item._id) 
-      : [...favItems, item]; 
-    
+    const isFavorite = favItems.some(recipe => recipe._id === item._id); // Check if the item is already a favorite
+    const updatedFavorites = isFavorite
+      ? favItems.filter(recipe => recipe._id !== item._id)  // If it's already a favorite, remove it
+      : [...favItems, item];  // If it's not a favorite, add it to the list
+
+    // Update the favorites in localStorage and state
     localStorage.setItem("fav", JSON.stringify(updatedFavorites));
-    setIsFavRecipe(!isFavRecipe);  // Trigger re-render when favorites change
+    setFavItems(updatedFavorites); // Update the state to reflect the change in favorites
   };
 
   return (
     <div className='card-container'>
       {allRecipes?.map((item) => {
         return (
-          // Use `item._id` as the unique key for each recipe
           <div 
             key={item._id}  // Ensure each child has a unique key
             className='card' 
